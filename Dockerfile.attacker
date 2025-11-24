@@ -1,0 +1,25 @@
+FROM python:3.9-slim
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    vim \
+    net-tools \
+    iputils-ping \
+    procps \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python packages
+RUN pip3 install flask requests
+
+# Create working directories
+RUN mkdir -p /attacker /payloads
+
+# Copy attacker files
+COPY attacker/c2_server.py /attacker/
+COPY attacker/job_offer.zip /payloads/
+
+WORKDIR /attacker
+
+# Container will stay running
+CMD ["/bin/bash", "-c", "tail -f /dev/null"]
